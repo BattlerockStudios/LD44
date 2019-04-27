@@ -17,8 +17,8 @@ public class Character : Actor, IAttributes
 
     #region Public Properties
 
-    public int Health { get => m_health; }
-    public float Speed { get => m_speed; }
+    public int Health => m_health;
+    public float Speed => m_speed;
 
     #endregion
 }
