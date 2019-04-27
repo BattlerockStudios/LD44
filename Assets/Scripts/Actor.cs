@@ -3,7 +3,17 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour
 {
-    private Guid m_guid = Guid.NewGuid();
+    #region Private Variables
 
-    public Guid Guid { get => m_guid; }
+    private Guid m_guid = Guid.NewGuid();
+    private string m_name = "DEFAULT_NAME";
+
+    #endregion
+
+    #region Public Properties
+
+    public Guid Guid => m_guid;
+    public string Name => m_name;
+
+    #endregion
 }
