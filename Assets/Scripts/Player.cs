@@ -60,7 +60,7 @@ public class Player : Character, IInteractionSource
         // Find the wanted rotation angle based on the rotation vector
         Quaternion wantedRotation = Quaternion.LookRotation(direction, Vector3.up);
 
-        Rigidbody.rotation = Quaternion.RotateTowards(Rigidbody.rotation, wantedRotation, Speed * Time.deltaTime);
+        Rigidbody.rotation = Quaternion.RotateTowards(Rigidbody.rotation, wantedRotation, RotationSpeed * Time.deltaTime);
     }
 
     #endregion   
