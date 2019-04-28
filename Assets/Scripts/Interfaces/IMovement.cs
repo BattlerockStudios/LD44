@@ -1,7 +1,9 @@
-﻿public interface IMovement
+﻿using UnityEngine;
+
+public interface IMovement
 {
     MoveState MoveState { get; }
-    void Direction();
+    Vector3 Direction();
     void Rotation();
 }
 
