@@ -1,13 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Player : Character, IInteractionSource, IMovement
 {
-    public MoveState MoveState => throw new System.NotImplementedException();
+    #region Private Variables
 
-    public void Direction()
+    [SerializeField]
+    private MoveState m_moveState = MoveState.Idle;
+    private readonly Dictionary<Guid, IInteractable> m_nearbyInteractiveObjects = new Dictionary<Guid, IInteractable>();
+
+    #endregion
+
+    #region Public Properties
+
+    public MoveState MoveState => m_moveState;
+
+    #endregion
+
+    #region Interface Methods
+
+    #region IMovement
+
+    public Vector3 Direction()
     {
         throw new System.NotImplementedException();
     }
+
+    public void Rotation()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    #endregion   
+
+    #region IInteractionSource    
 
     public void OnInteractionBegin(IInteractable interactable)
     {
@@ -21,7 +48,11 @@ public class Player : Character, IInteractionSource, IMovement
 
     public void OnTriggerEnter(Collider other)
     {
-        throw new System.NotImplementedException();
+        var foundInteractive = other.GetComponent<IInteractable>();
+        if (foundInteractive != null)
+        {
+
+        }
     }
 
     public void OnTriggerExit(Collider other)
@@ -29,8 +60,7 @@ public class Player : Character, IInteractionSource, IMovement
         throw new System.NotImplementedException();
     }
 
-    public void Rotation()
-    {
-        throw new System.NotImplementedException();
-    }
+    #endregion    
+
+    #endregion
 }
