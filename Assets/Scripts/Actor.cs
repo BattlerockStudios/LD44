@@ -5,7 +5,7 @@ public class Actor : MonoBehaviour
 {
     #region Private Variables
 
-    private Guid m_guid = Guid.NewGuid();
+    private readonly Guid m_guid = Guid.NewGuid();
 
     [SerializeField]
     private string m_name = "DEFAULT_NAME";
