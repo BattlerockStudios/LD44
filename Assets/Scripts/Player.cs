@@ -2,19 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character, IInteractionSource, IMovement
+public class Player : Character, IInteractionSource
 {
     #region Private Variables
 
-    [SerializeField]
-    private MoveState m_moveState = MoveState.Idle;
     private readonly Dictionary<Guid, IInteractable> m_nearbyInteractiveObjects = new Dictionary<Guid, IInteractable>();
 
     #endregion
 
-    #region Public Properties
+    #region Unity Methods
 
-    public MoveState MoveState => m_moveState;
+    private void Update()
+    {
+        ApplyMovement();
+    }
+
+    #endregion
+
+    #region Protected Methods
+
+    protected override void ApplyMovement()
+    {
+        base.ApplyMovement();
+
+        var direction = Direction();
+        var velocity = Velocity;
+
+        velocity.x = direction.x * Speed;
+        velocity.z = direction.z * Speed;
+
+        Rotation();
+
+        Rigidbody.velocity = velocity;
+    }
 
     #endregion
 
@@ -22,14 +42,25 @@ public class Player : Character, IInteractionSource, IMovement
 
     #region IMovement
 
-    public Vector3 Direction()
+    public override Vector3 Direction()
     {
-        throw new System.NotImplementedException();
+        Vector3 movementInput = new Vector3(Input.GetAxis(HORIZONTAL_AXIS), 0, Input.GetAxis(VERTICAL_AXIS));
+        movementInput = Camera.main.transform.TransformDirection(movementInput).normalized;
+        movementInput.y = 0;
+
+        movementInput.Normalize();
+
+        return movementInput;
     }
 
-    public void Rotation()
+    public override void Rotation()
     {
-        throw new System.NotImplementedException();
+        var direction = Direction();       
+
+        // Find the wanted rotation angle based on the rotation vector
+        Quaternion wantedRotation = Quaternion.LookRotation(direction, Vector3.up);
+
+        Rigidbody.rotation = Quaternion.RotateTowards(Rigidbody.rotation, wantedRotation, Speed * Time.deltaTime);
     }
 
     #endregion   
